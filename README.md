@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #Albion Zerg Manager
 
 ## To do
@@ -8,10 +7,6 @@
 - Updated the view comp button on the landing page to see a nice graphic of the currentlly setup comp for the specific event.
 
 
-
-##Project Summary
-=======
-# Albion Zerg Manager
 
 ## Project Summary
 

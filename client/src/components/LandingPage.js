@@ -31,9 +31,13 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       <header>
-        <h1>Albion <span className="highlight">Zerg</span> Manager</h1>
-        <p>Developed by <span className="developer">SnowTea</span></p>
-        <a href="/admin-login" className="admin-login">Admin Login</a>
+        <div className="header-content">
+          <div className="title-section">
+            <h1>Albion <span className="highlight">Zerg</span> Manager</h1>
+            <p className="developer">Developed by <span className="developer-name">SnowTea</span></p>
+          </div>
+          <a href="/admin-login" className="admin-login">Admin Login</a>
+        </div>
       </header>
       <div className="time-container">
         <div className="time-bubble current-time">
@@ -45,15 +49,22 @@ const LandingPage = () => {
         {events.map((event, index) => (
           <section key={index} className={index === 0 ? 'current-mass' : 'up-next'}>
             <h2>{index === 0 ? 'Current Mass' : 'Up Next'}</h2>
-            <div className={`event-card ${event.rewards === 'Regearable' ? 'regearable' : 'lootsplit'}`}>
-              <div className="event-details">
-                <p className="time">{moment(event.time).format('dddd, MMMM D - HH:mm [UTC]')}</p>
-                <p className="title">{moment(event.time).format('HH:mm')} UTC - {event.comp.name} - {event.rewards}</p>
-                <p className="details">Comp: {event.comp.name} | Caller: {event.caller} | Hammers: {event.hammers} | Sets: {event.sets}</p>
+            <div className={`event-wrapper ${event.rewards === 'Regearable' ? 'regearable' : 'lootsplit'}`}>
+              <div className="event-type">
+                <p>{event.rewards}</p>
               </div>
-              <div className="event-actions">
-                <Link to={`/signup/${event._id}`} className="button">Sign Up</Link>
-                <Link to={`/view-comp/${event._id}`} className="button">View Comp</Link> {/* Add this line */}
+              <div className="event-card">
+                <div className="event-details">
+                  <p className="date">{moment(event.time).format('dddd, MMMM D - HH:mm [UTC]')}</p>
+                  <p className="title">{event.comp.name} - {event.rewards}</p>
+                  <p className="details">
+                    <span>Comp:</span> {event.comp.name} | <span>Caller:</span> {event.caller} | <span>Hammers:</span> {event.hammers} | <span>Sets:</span> {event.sets}
+                  </p>
+                </div>
+                <div className="event-actions">
+                  <Link to={`/signup/${event._id}`} className="button">Sign Up</Link>
+                  <Link to={`/view-comp/${event._id}`} className="button">View Comp</Link>
+                </div>
               </div>
             </div>
           </section>

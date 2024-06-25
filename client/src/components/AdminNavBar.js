@@ -5,11 +5,11 @@ import './AdminNavBar.css';
 const AdminNavBar = () => {
   return (
     <nav className="admin-navbar">
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/configure-comps">Configure Comps</Link></li>
-        <li><Link to="/setup-event">Setup Event</Link></li>
-        <li><Link to="/configure-event">Configure Event</Link></li>
+      <ul className="nav-links">
+        <li><Link to="/" className="nav-button">Home</Link></li>
+        <li><Link to="/configure-comps" className="nav-button">Configure Comps</Link></li>
+        <li><Link to="/setup-event" className="nav-button">Setup Event</Link></li>
+        <li><Link to="/configure-event" className="nav-button">Configure Event</Link></li>
       </ul>
     </nav>
   );

@@ -1,33 +1,46 @@
+/* src/components/AdminNavBar.css */
+
 .admin-navbar {
-  background-color: #111;
-  padding: 10px;
-  border-radius: 20px;
-  margin: 0 auto;
-  width: fit-content;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.admin-navbar ul {
-  list-style: none;
   display: flex;
-  justify-content: space-around;
-  margin: 0;
-  padding: 0;
-}
-
-.admin-navbar ul li {
-  position: relative;
-}
-
-.admin-navbar ul li a {
-  display: block;
+  justify-content: center;
+  align-items: center;
+  background-color: #23312f; /* Navbar background color */
   padding: 10px 20px;
-  color: #00f;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-weight: bold;
+  border-radius: 10px; /* Adjust border radius for a smoother look */
+  border: 2px solid #86ffcc; /* Navbar border color */
+  position: relative;
+  top: 10px; /* Move navbar up on the page */
+  width: 90%; /* Adjust width to provide some margin on the sides */
+  margin: 0 auto; /* Center the navbar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow for depth */
 }
 
-.admin-navbar ul li a:hover {
-  color: #fff;
+.nav-links {
+  display: flex;
+  gap: 15px; /* Adjust gap for better spacing */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  list-style: none;
+}
+
+.nav-button {
+  display: inline-block;
+  color: #e2bb57; /* Link color */
+  text-decoration: none;
+  padding: 8px 15px; /* Adjust padding for better spacing */
+  border-radius: 5px;
+  background-color: #23312f;
+  border: 1px solid #86ffcc;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+  cursor: pointer;
+  text-align: center;
+}
+
+.nav-button:hover {
+  background-color: #d1aa46; /* Slightly darker shade for hover */
+  color: #23312f; /* Change text color on hover for contrast */
 }

@@ -21,10 +21,12 @@ const AdminPanel = () => {
   return (
     <div className="admin-panel">
       <AdminNavBar />
-      <h1>Admin Panel</h1>
-      <button onClick={handleSetupEvent}>Setup Event</button>
-      <button onClick={handleConfigureEvent}>Configure Event</button>
-      <button onClick={handleConfigureComps}>Configure Comps</button>
+      <div className="admin-content">
+        <h1>Admin Panel</h1>
+        <button onClick={handleSetupEvent}>Setup Event</button>
+        <button onClick={handleConfigureEvent}>Configure Event</button>
+        <button onClick={handleConfigureComps}>Configure Comps</button>
+      </div>
     </div>
   );
 };

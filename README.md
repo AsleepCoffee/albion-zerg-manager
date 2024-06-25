@@ -1,4 +1,13 @@
 #Albion Zerg Manager
+
+## To do
+
+- Update the admin assign comp side to actually work. I think there is an issue with how it's displaying peopel assigned to roles. I'm way to lazy to do this today... or maybe tomorrow too.
+
+- Updated the view comp button on the landing page to see a nice graphic of the currentlly setup comp for the specific event.
+
+
+
 ##Project Summary
 Albion Zerg Manager is a comprehensive tool designed to facilitate the management of large-scale events, specifically for the game Albion Online. The application enables administrators to configure events, manage compositions (comps) for these events, and allow players to sign up and be assigned to specific roles.
 

@@ -1,0 +1,119 @@
+/* src/components/LandingPage.css */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #1c1c1c;
+  color: #ffffff;
+}
+
+.landing-page {
+  text-align: center;
+  padding: 20px;
+}
+
+header {
+  margin-bottom: 40px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.highlight {
+  color: #00ff88;
+}
+
+.developer {
+  color: #ff88ff;
+}
+
+.admin-login {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #00ff88;
+  text-decoration: none;
+}
+
+.time-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.time-bubble {
+  background-color: #333333;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #00ff88;
+  text-align: center;
+  margin: 10px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section {
+  width: 80%;
+  margin-bottom: 40px;
+}
+
+.event-card {
+  background-color: #333333;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-card.regearable {
+  border: 2px solid #00ff88;
+}
+
+.event-card.lootsplit {
+  border: 2px solid #ffffff;
+}
+
+.event-details {
+  text-align: left;
+}
+
+.time {
+  font-size: 1.2rem;
+  color: #cccccc;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+.details {
+  font-size: 1rem;
+  color: #aaaaaa;
+}
+
+.event-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  background-color: #ffcc00;
+  color: #000000;
+  padding: 10px 20px;
+  margin: 5px 0;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #ffaa00;
+}

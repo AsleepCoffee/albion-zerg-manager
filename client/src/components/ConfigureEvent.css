@@ -1,0 +1,47 @@
+.configure-event-page {
+  padding: 20px;
+}
+
+.event-card {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: 2px solid #00ff00;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-info {
+  flex: 1;
+}
+
+.event-info h3 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.event-info p {
+  margin: 5px 0;
+}
+
+.event-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  background-color: #ffcc00;
+  color: #1a1a1a;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn:hover {
+  background-color: #ffaa00;
+}

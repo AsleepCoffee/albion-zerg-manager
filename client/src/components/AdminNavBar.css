@@ -1,0 +1,33 @@
+.admin-navbar {
+  background-color: #111;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 0 auto;
+  width: fit-content;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.admin-navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-navbar ul li {
+  position: relative;
+}
+
+.admin-navbar ul li a {
+  display: block;
+  padding: 10px 20px;
+  color: #00f;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.admin-navbar ul li a:hover {
+  color: #fff;
+}

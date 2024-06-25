@@ -1,0 +1,62 @@
+.configure-comp-page {
+  padding: 20px;
+}
+
+.role-square {
+  width: 120px;
+  height: 80px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  color: black; /* Ensure text color is always visible */
+  background-color: #f0f0f0; /* Ensure background color is always visible */
+  position: relative;
+}
+
+.unassigned-dropzone {
+  margin-bottom: 20px;
+  background-color: #f0f0f0; /* Ensure background color is always visible */
+}
+
+.unassigned-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.party-container {
+  margin-bottom: 20px;
+}
+
+.roles-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.remove-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 5px;
+}
+
+.signup-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-name {
+  font-size: 14px; /* Current size font */
+}
+
+.signup-roles {
+  font-size: 12px; /* Smaller font for roles */
+}

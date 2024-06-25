@@ -68,6 +68,45 @@ Albion Zerg Manager is a comprehensive tool designed to facilitate the managemen
 ## Setup Instructions
 
 1. **Clone the Repository:**
-   ```sh
-   git clone https://github.com/username/albion-zerg-manager.git
-   cd albion-zerg-manager
+    ```
+    git clone https://github.com/username/albion-zerg-manager.git
+    cd albion-zerg-manager
+    npm install
+    cd client
+    npm install
+    cd ..
+    ```
+2. **Install Dependencies**
+    ```
+    npm install
+    cd client
+    npm install
+    cd ..
+    ```
+
+
+3. **Environment Variables**
+    Create a `.env` file in the root directory
+    Add the following to environtment variables
+    ```
+    MONGO_URI=<Your MongoDB URI>
+    PORT=5000
+    ```
+4. **Start the Applications**
+    Start Server:
+    ```
+    npm run server
+    ```
+    Start the client:
+    ```
+    npm run client
+    ```
+5. **Access the Application**
+    Open http://localhost:3000 on your browser of choice.
+
+6. Profit
+
+
+
+
+

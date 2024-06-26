@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 const LandingPage = () => {
   const [currentTime, setCurrentTime] = useState(moment().utc().format('YYYY-MM-DD HH:mm:ss'));
   const [events, setEvents] = useState([]);
+  const [timeUntilNextEvent, setTimeUntilNextEvent] = useState('');
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -14,6 +15,7 @@ const LandingPage = () => {
         const response = await axios.get('/api/events');
         const sortedEvents = response.data.sort((a, b) => new Date(a.time) - new Date(b.time));
         setEvents(sortedEvents);
+        console.log('Fetched Events:', sortedEvents);
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -27,6 +29,29 @@ const LandingPage = () => {
 
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (events.length > 0) {
+      const calculateTimeUntilNextEvent = () => {
+        const nextEventTime = moment(events[0].time).utc();
+        const now = moment().utc();
+        const duration = moment.duration(nextEventTime.diff(now));
+        console.log('Next Event Time:', nextEventTime.format('YYYY-MM-DD HH:mm:ss'));
+        console.log('Current Time:', now.format('YYYY-MM-DD HH:mm:ss'));
+        console.log('Duration:', duration.hours(), 'h', duration.minutes(), 'm', duration.seconds(), 's');
+        setTimeUntilNextEvent(`${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`);
+      };
+
+      calculateTimeUntilNextEvent();
+      const countdownTimer = setInterval(calculateTimeUntilNextEvent, 1000);
+      return () => clearInterval(countdownTimer);
+    }
+  }, [events]);
+
+  useEffect(() => {
+    console.log('Current Time:', currentTime);
+    console.log('Time Until Next Event:', timeUntilNextEvent);
+  }, [currentTime, timeUntilNextEvent]);
 
   return (
     <div className="landing-page">
@@ -45,6 +70,10 @@ const LandingPage = () => {
         <div className="time-bubble current-time">
           <p>Current UTC Time:</p>
           <p>{currentTime}</p>
+        </div>
+        <div className="time-bubble next-event-time">
+          <p>Time Until Next Event:</p>
+          <p>{timeUntilNextEvent ? timeUntilNextEvent : 'No upcoming events'}</p>
         </div>
       </div>
       <main>

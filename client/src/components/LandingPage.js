@@ -33,7 +33,9 @@ const LandingPage = () => {
       <header>
         <div className="header-content">
           <div className="title-section">
-            <h1>Albion <span className="highlight">Zerg</span> Manager</h1>
+            <h1>
+              <span className="albion">Albion</span> <span className="highlight">Zerg</span> <span className="manager">Manager</span>
+            </h1>
             <p className="developer">Developed by <span className="developer-name">SnowTea</span></p>
           </div>
           <a href="/admin-login" className="admin-login">Admin Login</a>

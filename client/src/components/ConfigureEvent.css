@@ -1,11 +1,13 @@
+/* src/components/ConfigureEvent.css */
+
 .configure-event-page {
   padding: 20px;
 }
 
 .event-card {
-  background-color: #1a1a1a;
+  background-color: #23312f; /* Match the event box background color */
   color: #ffffff;
-  border: 2px solid #00ff00;
+  border: 2px solid #86ffcc; /* Match the outline color */
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
@@ -32,16 +34,26 @@
   gap: 10px;
 }
 
-.btn {
-  background-color: #ffcc00;
-  color: #1a1a1a;
+.button {
+  background-color: #e2bb57; /* Match button background color */
+  color: #000000; /* Match button text color */
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
 }
 
-.btn:hover {
-  background-color: #ffaa00;
+.button:hover {
+  background-color: #d1aa46; /* Slightly darker shade for hover */
+}
+
+.delete-btn {
+  background-color: #ff0000; /* Different color for delete button */
+}
+
+.delete-btn:hover {
+  background-color: #cc0000; /* Slightly darker shade for hover */
 }

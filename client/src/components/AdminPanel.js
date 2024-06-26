@@ -23,9 +23,9 @@ const AdminPanel = () => {
       <AdminNavBar />
       <div className="admin-content">
         <h1>Admin Panel</h1>
-        <button onClick={handleSetupEvent}>Setup Event</button>
-        <button onClick={handleConfigureEvent}>Configure Event</button>
-        <button onClick={handleConfigureComps}>Configure Comps</button>
+        <button className="button" onClick={handleSetupEvent}>Setup Event</button>
+        <button className="button" onClick={handleConfigureEvent}>Configure Event</button>
+        <button className="button" onClick={handleConfigureComps}>Configure Comps</button>
       </div>
     </div>
   );

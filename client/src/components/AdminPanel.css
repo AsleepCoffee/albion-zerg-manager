@@ -25,14 +25,21 @@ h1 {
 
 button {
   padding: 10px 20px;
-  background-color: #e2bb57; /* Update button background color */
+  background-color: #e2bb57 !important; /* Update button background color */
   border: none;
   border-radius: 5px;
-  color: #000000; /* Match button text color */
+  color: #000000 !important; /* Match button text color */
   cursor: pointer;
   margin: 10px 0;
+  text-decoration: none; /* Ensure text is not underlined */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
 }
 
 button:hover {
-  background-color: #d1aa46; /* Slightly darker shade for hover */
+  background-color: #d1aa46 !important; /* Slightly darker shade for hover */
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 5px #86ffcc;
 }

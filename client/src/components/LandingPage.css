@@ -35,8 +35,16 @@ h1 {
   margin: 0;
 }
 
+.albion {
+  color: #ffffff; /* White color for Albion */
+}
+
 .highlight {
   color: #86ffcc !important; /* Change the color of the word Zerg */
+}
+
+.manager {
+  color: #ffffff; /* White color for Manager */
 }
 
 .developer {

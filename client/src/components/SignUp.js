@@ -71,8 +71,8 @@ const SignUp = () => {
     }
   };
 
-  const filteredRoles = (role) => {
-    return !assignedRoles.some(assignedRole => assignedRole.role === role);
+  const filteredRoles = (role, selectedRoles) => {
+    return !assignedRoles.some(assignedRole => assignedRole.role === role) && !selectedRoles.includes(role);
   };
 
   return (
@@ -102,7 +102,7 @@ const SignUp = () => {
                 className="input-field"
               >
                 <option value="">Select a Role</option>
-                {roles.filter(filteredRoles).map((role, index) => (
+                {roles.filter(role => filteredRoles(role, [secondPick, thirdPick])).map((role, index) => (
                   <option key={index} value={role}>{role}</option>
                 ))}
               </select>
@@ -116,7 +116,7 @@ const SignUp = () => {
                 className="input-field"
               >
                 <option value="">Select a Role</option>
-                {roles.filter(filteredRoles).map((role, index) => (
+                {roles.filter(role => filteredRoles(role, [firstPick, thirdPick])).map((role, index) => (
                   <option key={index} value={role}>{role}</option>
                 ))}
               </select>
@@ -130,7 +130,7 @@ const SignUp = () => {
                 className="input-field"
               >
                 <option value="">Select a Role</option>
-                {roles.filter(filteredRoles).map((role, index) => (
+                {roles.filter(role => filteredRoles(role, [firstPick, secondPick])).map((role, index) => (
                   <option key={index} value={role}>{role}</option>
                 ))}
               </select>

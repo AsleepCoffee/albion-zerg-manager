@@ -66,14 +66,14 @@ const RoleSquare = ({ party, role, assignedSignup, onDropSignup, onRemoveSignup 
         <>
           <div className="signup-details">
             <div className="signup-name">{assignedSignup.name}</div>
-            <div className="signup-role">{role.replace(/_/g, '.')}</div> {/* Replace underscores with dots */}
+            <div className="signup-role">{assignedSignup.role}</div>
           </div>
           <button className="remove-button" onClick={() => onRemoveSignup(party, role)}>
             X
           </button>
         </>
       ) : (
-        role.replace(/_/g, '.') // Replace underscores with dots
+        role.replace(/_/g, '.')
       )}
     </div>
   );
@@ -110,7 +110,7 @@ const UnassignedDropZone = ({ onDropSignup, children }) => {
 const ConfigureEventComp = () => {
   const { eventId } = useParams();
   const [event, setEvent] = useState(null);
-  const [comp, setComp] = useState(null);
+  const [comps, setComps] = useState([]);
   const [signups, setSignups] = useState([]);
   const [assignedRoles, setAssignedRoles] = useState({});
 
@@ -121,35 +121,34 @@ const ConfigureEventComp = () => {
         const fetchedEvent = eventResponse.data;
         setEvent(fetchedEvent);
 
-        const compId = fetchedEvent.comp._id.toString();
-        const compResponse = await axios.get(`/api/comps/${compId}`);
-        setComp(compResponse.data);
+        const compResponses = await Promise.all(
+          fetchedEvent.partyComps.map(comp => axios.get(`/api/comps/${comp._id}`))
+        );
+        const fetchedComps = compResponses.map(response => response.data);
+        setComps(fetchedComps);
 
         const signupResponse = await axios.get(`/api/signups/${eventId}`);
         const allSignups = signupResponse.data;
 
         const initialAssignments = fetchedEvent.assignedRoles || {};
-        console.log('Initial assignments:', initialAssignments); // Debug log
-
-        // Populate assignedRoles with full signup data
         const populatedAssignments = {};
         for (const party in initialAssignments) {
           populatedAssignments[party] = {};
           for (const role in initialAssignments[party]) {
-            const signupId = initialAssignments[party][role].name; // Get signup ID
-            const signup = allSignups.find((s) => s._id === signupId);
+            const signupName = initialAssignments[party][role].name;
+            const roleName = initialAssignments[party][role].role;
+            const signup = allSignups.find((s) => s.name === signupName);
             if (signup) {
-              populatedAssignments[party][role] = signup;
+              populatedAssignments[party][role] = { name: signup.name, role: roleName, ...signup };
             }
           }
         }
         setAssignedRoles(populatedAssignments);
 
-        // Filter out already assigned signups
         const unassignedSignups = allSignups.filter(
           (signup) =>
             !Object.values(populatedAssignments).some((party) =>
-              Object.values(party).some((assignedSignup) => assignedSignup._id === signup._id)
+              Object.values(party).some((assignedSignup) => assignedSignup.name === signup.name)
             )
         );
         setSignups(unassignedSignups);
@@ -169,17 +168,16 @@ const ConfigureEventComp = () => {
         ...prev,
         [party]: {
           ...prev[party],
-          [role]: signup,
+          [role]: { name: signup.name, role, firstPick: signup.firstPick, secondPick: signup.secondPick, thirdPick: signup.thirdPick },
         },
       }));
       setSignups((prev) => prev.filter((s) => s._id !== signup._id));
     } else {
-      // Handle unassigned drop zone
       setAssignedRoles((prev) => {
         const newAssignedRoles = { ...prev };
         Object.keys(newAssignedRoles).forEach((partyKey) => {
           Object.keys(newAssignedRoles[partyKey]).forEach((roleKey) => {
-            if (newAssignedRoles[partyKey][roleKey] && newAssignedRoles[partyKey][roleKey]._id === signup._id) {
+            if (newAssignedRoles[partyKey][roleKey] && newAssignedRoles[partyKey][roleKey].name === signup.name) {
               delete newAssignedRoles[partyKey][roleKey];
             }
           });
@@ -210,7 +208,7 @@ const ConfigureEventComp = () => {
         for (const role in assignedRoles[party]) {
           if (assignedRoles[party][role]) {
             const safeRole = role.replace(/\./g, '_'); // Transform role name
-            transformedAssignments[party][safeRole] = assignedRoles[party][role]._id;
+            transformedAssignments[party][safeRole] = assignedRoles[party][role];
           }
         }
       }
@@ -239,14 +237,14 @@ const ConfigureEventComp = () => {
     });
   };
 
-  const renderParties = (numParties, roles) => {
+  const renderParties = (numParties, comps) => {
     const parties = [];
-    for (let i = 1; i <= numParties; i++) {
+    for (let i = 0; i < numParties; i++) {
       parties.push(
         <div key={i} className="party-container">
-          <h2>Party {i}</h2>
+          <h2>Party {i + 1}</h2>
           <div className="roles-container">
-            {renderRoleSquares(`party${i}`, roles)}
+            {renderRoleSquares(`party${i + 1}`, comps[i].slots)}
           </div>
         </div>
       );
@@ -254,7 +252,7 @@ const ConfigureEventComp = () => {
     return parties;
   };
 
-  if (!event || !comp) {
+  if (!event || comps.length === 0) {
     return <div>Loading event and comp data...</div>;
   }
 
@@ -262,7 +260,6 @@ const ConfigureEventComp = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="configure-comp-page">
         <h1>Configure Comp for Event</h1>
-        <h2>{comp.name}</h2>
         <UnassignedDropZone onDropSignup={handleDropSignup}>
           <div className="unassigned-container">
             {signups.map((signup) => (
@@ -270,7 +267,7 @@ const ConfigureEventComp = () => {
             ))}
           </div>
         </UnassignedDropZone>
-        {renderParties(event.parties, comp.slots)}
+        {renderParties(event.parties, comps)}
         <button className="save-button" onClick={() => {
           console.log('Save button clicked'); // Add this log to verify the button click
           handleSaveAssignments();

@@ -8,7 +8,7 @@ import AdminNavBar from './AdminNavBar';
 
 const SetupEvent = () => {
   const [time, setTime] = useState('');
-  const [comp, setComp] = useState('');
+  const [partyComps, setPartyComps] = useState(['']);
   const [caller, setCaller] = useState('');
   const [hammers, setHammers] = useState('');
   const [sets, setSets] = useState('');
@@ -40,7 +40,7 @@ const SetupEvent = () => {
   const handleCreateEvent = async () => {
     const newEvent = {
       time: moment(time).utc().format(),
-      comp,
+      partyComps,
       caller,
       hammers,
       sets,
@@ -54,7 +54,7 @@ const SetupEvent = () => {
         alert('Event created successfully!');
         // Clear form
         setTime('');
-        setComp('');
+        setPartyComps(['']);
         setCaller('');
         setHammers('');
         setSets('');
@@ -67,6 +67,12 @@ const SetupEvent = () => {
     } catch (error) {
       alert('An error occurred. Please try again.');
     }
+  };
+
+  const handleCompChange = (index, value) => {
+    const updatedComps = [...partyComps];
+    updatedComps[index] = value;
+    setPartyComps(updatedComps);
   };
 
   const isValidDate = (current) => {
@@ -95,17 +101,23 @@ const SetupEvent = () => {
             timeFormat="HH:mm"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="comp">Comp:</label>
-          <select id="comp" value={comp} onChange={(e) => setComp(e.target.value)}>
-            <option value="">Select a Comp</option>
-            {comps.map((compItem) => (
-              <option key={compItem._id} value={compItem._id}>
-                {compItem.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {[...Array(parties)].map((_, index) => (
+          <div key={index} className="form-group">
+            <label htmlFor={`comp${index}`}>Party {index + 1} Comp:</label>
+            <select
+              id={`comp${index}`}
+              value={partyComps[index] || ''}
+              onChange={(e) => handleCompChange(index, e.target.value)}
+            >
+              <option value="">Select a Comp</option>
+              {comps.map((compItem) => (
+                <option key={compItem._id} value={compItem._id}>
+                  {compItem.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
         <div className="form-group">
           <label htmlFor="caller">Caller:</label>
           <input
@@ -145,7 +157,15 @@ const SetupEvent = () => {
         </div>
         <div className="form-group">
           <label htmlFor="parties">Number of Parties:</label>
-          <select id="parties" value={parties} onChange={(e) => setParties(parseInt(e.target.value))}>
+          <select
+            id="parties"
+            value={parties}
+            onChange={(e) => {
+              const numParties = parseInt(e.target.value);
+              setParties(numParties);
+              setPartyComps(new Array(numParties).fill(''));
+            }}
+          >
             {[1, 2, 3, 4, 5].map((number) => (
               <option key={number} value={number}>{number}</option>
             ))}

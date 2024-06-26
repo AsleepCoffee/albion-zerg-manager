@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './LandingPage.css';
 import moment from 'moment';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Use Link for navigation
+import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
   const [currentTime, setCurrentTime] = useState(moment().utc().format('YYYY-MM-DD HH:mm:ss'));
@@ -34,7 +34,7 @@ const LandingPage = () => {
         <div className="header-content">
           <div className="title-section">
             <h1>
-              <span className="albion">Albion</span> <span className="highlight">Zerg</span> <span className="manager">Manager</span>
+              <span style={{ color: 'white' }}>Albion</span> <span className="highlight">Zerg</span> <span style={{ color: 'white' }}>Manager</span>
             </h1>
             <p className="developer">Developed by <span className="developer-name">SnowTea</span></p>
           </div>
@@ -58,10 +58,12 @@ const LandingPage = () => {
               <div className="event-card">
                 <div className="event-details">
                   <p className="date">{moment(event.time).format('dddd, MMMM D - HH:mm [UTC]')}</p>
-                  <p className="title">{event.comp.name} - {event.rewards}</p>
-                  <p className="details">
-                    <span>Comp:</span> {event.comp.name} | <span>Caller:</span> {event.caller} | <span>Hammers:</span> {event.hammers} | <span>Sets:</span> {event.sets}
-                  </p>
+                  <p className="title">{event.eventType}</p>
+                  {event.partyComps && event.partyComps.length > 0 && (
+                    <p className="details">
+                      <span>Comp:</span> {event.partyComps[0].name} | <span>Caller:</span> {event.caller} | <span>Hammers:</span> {event.hammers} | <span>Sets:</span> {event.sets}
+                    </p>
+                  )}
                 </div>
                 <div className="event-actions">
                   <Link to={`/signup/${event._id}`} className="button">Sign Up</Link>

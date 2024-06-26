@@ -1,0 +1,62 @@
+.event-signups-page {
+    padding: 20px;
+  }
+  
+  .signups-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .signup-box {
+    border: 1px solid #86ffcc;
+    background-color: #23312f;
+    color: white;
+    padding: 10px;
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+  }
+  
+  .signup-details {
+    flex-grow: 1;
+  }
+  
+  .signup-name {
+    font-weight: bold;
+  }
+  
+  .signup-role {
+    font-style: italic;
+  }
+  
+  .delete-button {
+    background-color: #8b5052;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 16px;
+  }
+  
+  .back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #86ffcc;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #23312f;
+  }
+  
+  .view-signups-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #86ffcc;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #23312f;
+  }
+  

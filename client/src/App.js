@@ -9,6 +9,7 @@ import ConfigureEvent from './components/ConfigureEvent';
 import ConfigureEventComp from './components/ConfigureEventComp';
 import ViewComp from './components/ViewComp';
 import SignUp from './components/SignUp';
+import EventSignups from './components/EventSignups'; // Import the EventSignups component
 import './App.css';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/configure-event-comp/:eventId" element={<ConfigureEventComp />} />
           <Route path="/view-comp/:eventId" element={<ViewComp />} />
           <Route path="/signup/:eventId" element={<SignUp />} />
+          <Route path="/event-signups/:eventId" element={<EventSignups />} /> {/* Add the new route here */}
         </Routes>
       </div>
     </Router>

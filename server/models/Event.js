@@ -1,20 +1,15 @@
 const mongoose = require('mongoose');
 
-const AssignedRoleSchema = new mongoose.Schema({
-  role: String,
-  name: String,
-}, { _id: false });
-
 const EventSchema = new mongoose.Schema({
   time: {
     type: Date,
     required: true,
   },
-  comp: {
+  partyComps: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comp',
     required: true,
-  },
+  }],
   caller: {
     type: String,
     required: true,

@@ -6,7 +6,7 @@ const Signup = require('../models/SignUp'); // Ensure this path is correct
 // Get all events
 router.get('/', async (req, res) => {
   try {
-    const events = await Event.find().populate('comp');
+    const events = await Event.find().populate('partyComps'); // Populate partyComps instead of comps
     res.json(events);
   } catch (err) {
     console.error('Error fetching events:', err);
@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
     const eventId = req.params.id;
     console.log('Received Event ID:', eventId); // Log received eventId
 
-    const event = await Event.findById(eventId).populate('comp');
+    const event = await Event.findById(eventId).populate('partyComps'); // Populate partyComps instead of comps
     if (!event) return res.status(404).json({ message: 'Event not found' });
 
     // Transform assignedRoles to replace underscores back to dots in role names
@@ -43,8 +43,8 @@ router.get('/:id', async (req, res) => {
 
 // Create a new event
 router.post('/', async (req, res) => {
-  const { time, comp, caller, hammers, sets, rewards, parties, eventType, compSlots, assignedRoles } = req.body;
-  const event = new Event({ time, comp, caller, hammers, sets, rewards, parties, eventType, compSlots, assignedRoles });
+  const { time, partyComps, caller, hammers, sets, rewards, parties, eventType, compSlots, assignedRoles } = req.body;
+  const event = new Event({ time, partyComps, caller, hammers, sets, rewards, parties, eventType, compSlots, assignedRoles });
   try {
     const newEvent = await event.save();
     res.status(201).json(newEvent);
@@ -96,8 +96,6 @@ router.delete('/:id', async (req, res) => {
 router.put('/:id/assignments', async (req, res) => {
   try {
     const { assignedRoles } = req.body;
-    console.log('Received assignedRoles:', JSON.stringify(assignedRoles, null, 2)); // Log received data
-
     const event = await Event.findById(req.params.id);
     if (!event) return res.status(404).json({ message: 'Event not found' });
 
@@ -107,14 +105,12 @@ router.put('/:id/assignments', async (req, res) => {
       transformedAssignedRoles[party] = {};
       for (const role in assignedRoles[party]) {
         const safeRole = role.replace(/\./g, '_');
-        transformedAssignedRoles[party][safeRole] = { role: role, name: assignedRoles[party][role] };
+        transformedAssignedRoles[party][safeRole] = assignedRoles[party][role];
       }
     }
 
     event.assignedRoles = transformedAssignedRoles;
     await event.save();
-
-    console.log('Updated event:', JSON.stringify(event, null, 2)); // Log updated event
     res.json(event);
   } catch (err) {
     console.error('Error saving role assignments:', err);

@@ -2,9 +2,10 @@
 
 ## To do
 
-- Update the admin assign comp side to actually work. I think there is an issue with how it's displaying peopel assigned to roles. I'm way to lazy to do this today... or maybe tomorrow too.
-
-- Updated the view comp button on the landing page to see a nice graphic of the currentlly setup comp for the specific event.
+- Update the drop down for signup to now allow you to pick the same one twice
+- Update the backend page for dropping signed up players
+- Add nav bar to the configure comp page and the configure event page
+- Fix the time for next event. If it's over a day away it puts the wrong ammout of hours. I think it's not subtracting the dates?
 
 
 

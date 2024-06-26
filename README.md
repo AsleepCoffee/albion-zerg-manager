@@ -2,7 +2,7 @@
 
 ## To do
 
-- Update the drop down for signup to now allow you to pick the same one twice
+- Update the drop down for signup to not allow you to pick the same one twice
 - Update the backend page for dropping signed up players
 - Add nav bar to the configure comp page and the configure event page
 - Fix the time for next event. If it's over a day away it puts the wrong ammout of hours. I think it's not subtracting the dates?

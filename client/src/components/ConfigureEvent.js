@@ -39,6 +39,7 @@ const ConfigureEvent = () => {
       <h1>Configure Event</h1>
       {events.map((event) => (
         <div key={event._id} className="event-card">
+          <button className="delete-btn" onClick={() => handleDelete(event._id)}>X</button>
           <div className="event-info">
             <h3>{new Date(event.time).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })} - {new Date(event.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} UTC</h3>
             <p><strong>Caller:</strong> {event.caller}</p>
@@ -49,8 +50,7 @@ const ConfigureEvent = () => {
             <Link to={`/configure-event-comp/${event._id}`} className="button">View Comp</Link>
             <Link to={`/signup/${event._id}`} className="button">Sign Up</Link>
             <Link to={`/event-signups/${event._id}`} className="button">View Signups</Link>
-            <Link to={`/edit-event-information/${event._id}`} className="button">Edit Event Information</Link> {/* New button */}
-            <button className="button delete-btn" onClick={() => handleDelete(event._id)}>Delete Event</button>
+            <Link to={`/edit-event-information/${event._id}`} className="button">Edit Event Information</Link>
           </div>
         </div>
       ))}

@@ -24,7 +24,7 @@ const EventSignups = () => {
     fetchSignups();
   }, [eventId]);
 
-  const handleDelete = async (signupId) => {
+  const handleDelete = async (signupId, signupName) => {
     try {
       console.log(`Deleting signup with ID: ${signupId}`);
       await axios.delete(`/api/signups/${signupId}`);
@@ -34,12 +34,14 @@ const EventSignups = () => {
       const updatedEvent = { ...event };
       for (const party in updatedEvent.assignedRoles) {
         for (const role in updatedEvent.assignedRoles[party]) {
-          if (updatedEvent.assignedRoles[party][role] && updatedEvent.assignedRoles[party][role]._id === signupId) {
-            console.log(`Removing role ${role} from party ${party} for signup ${signupId}`);
+          if (updatedEvent.assignedRoles[party][role] && updatedEvent.assignedRoles[party][role].name === signupName) {
+            console.log(`Removing role ${role} from party ${party} for signup ${signupName}`);
             delete updatedEvent.assignedRoles[party][role];
           }
         }
       }
+
+      await axios.put(`/api/events/${event._id}`, { assignedRoles: updatedEvent.assignedRoles });
       setEvent(updatedEvent);
       console.log('Updated event state:', updatedEvent);
     } catch (error) {
@@ -58,12 +60,14 @@ const EventSignups = () => {
       <div className="signups-list">
         {signups.map((signup) => (
           <div key={signup._id} className="signup-item">
-            <p><strong>Name:</strong> {signup.name}</p>
-            <p><strong>First Pick:</strong> {signup.firstPick}</p>
-            <p><strong>Second Pick:</strong> {signup.secondPick}</p>
-            <p><strong>Third Pick:</strong> {signup.thirdPick}</p>
-            <p><strong>Assigned Role:</strong> {getAssignedRole(signup.name, event.assignedRoles)}</p>
-            <button className="button delete-btn" onClick={() => handleDelete(signup._id)}>X</button>
+            <div className="signup-details">
+              <p><strong>Name:</strong> {signup.name}</p>
+              <p><strong>First Pick:</strong> {signup.firstPick}</p>
+              <p><strong>Second Pick:</strong> {signup.secondPick}</p>
+              <p><strong>Third Pick:</strong> {signup.thirdPick}</p>
+              <p><strong>Assigned Role:</strong> {getAssignedRole(signup.name, event.assignedRoles)}</p>
+            </div>
+            <button className="button delete-btn" onClick={() => handleDelete(signup._id, signup.name)}>X</button>
           </div>
         ))}
       </div>

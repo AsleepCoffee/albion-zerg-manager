@@ -1,5 +1,3 @@
-/* src/components/ConfigureEvent.css */
-
 .configure-event-page {
   padding: 20px;
 }
@@ -11,9 +9,26 @@
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
+  position: relative; /* Ensure delete button is positioned relative to this container */
+}
+
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #ff0000; /* Red background */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 20px; /* Ensures the 'X' is centered vertically */
 }
 
 .event-info {
@@ -32,6 +47,7 @@
 .event-actions {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap; /* Ensure buttons wrap to the next line if necessary */
 }
 
 .button {
@@ -48,12 +64,4 @@
 
 .button:hover {
   background-color: #d1aa46; /* Slightly darker shade for hover */
-}
-
-.delete-btn {
-  background-color: #ff0000; /* Different color for delete button */
-}
-
-.delete-btn:hover {
-  background-color: #cc0000; /* Slightly darker shade for hover */
 }

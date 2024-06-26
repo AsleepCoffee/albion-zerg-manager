@@ -49,6 +49,7 @@ const ConfigureEvent = () => {
             <Link to={`/configure-event-comp/${event._id}`} className="button">View Comp</Link>
             <Link to={`/signup/${event._id}`} className="button">Sign Up</Link>
             <Link to={`/event-signups/${event._id}`} className="button">View Signups</Link>
+            <Link to={`/edit-event-information/${event._id}`} className="button">Edit Event Information</Link> {/* New button */}
             <button className="button delete-btn" onClick={() => handleDelete(event._id)}>Delete Event</button>
           </div>
         </div>

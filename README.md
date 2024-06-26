@@ -2,9 +2,9 @@
 
 ## To do
 
-- Update the drop down for signup to not allow you to pick the same one twice
+- ~~Update the drop down for signup to not allow you to pick the same one twice - Done~~
 - Update the backend page for dropping signed up players
-- Add nav bar to the configure comp page and the configure event page
+- ~~Add nav bar to the configure comp page and the configure event page - Done~~
 - Fix the time for next event. If it's over a day away it puts the wrong ammout of hours. I think it's not subtracting the dates?
 - Need a way to actual event information like number of parties etc. Add another page to the edit event for admins I guess.
 - Update the general ui of the backend. It's a little jank. 

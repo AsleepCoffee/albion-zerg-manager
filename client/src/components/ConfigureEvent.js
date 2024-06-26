@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './ConfigureEvent.css';
+import AdminNavBar from './AdminNavBar'; // Import the AdminNavBar component
 
 const ConfigureEvent = () => {
   const [events, setEvents] = useState([]);
@@ -34,6 +35,7 @@ const ConfigureEvent = () => {
 
   return (
     <div className="configure-event-page">
+      <AdminNavBar /> {/* Include the AdminNavBar component */}
       <h1>Configure Event</h1>
       {events.map((event) => (
         <div key={event._id} className="event-card">

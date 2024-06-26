@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import './ConfigureEventComp.css';
+import AdminNavBar from './AdminNavBar'; // Import the AdminNavBar component
 
 const ItemTypes = {
   SIGNUP: 'signup',
@@ -259,6 +260,7 @@ const ConfigureEventComp = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="configure-comp-page">
+        <AdminNavBar /> {/* Include the AdminNavBar component */}
         <h1>Configure Comp for Event</h1>
         <UnassignedDropZone onDropSignup={handleDropSignup}>
           <div className="unassigned-container">

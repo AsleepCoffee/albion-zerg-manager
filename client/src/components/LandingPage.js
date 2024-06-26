@@ -38,8 +38,8 @@ const LandingPage = () => {
         const duration = moment.duration(nextEventTime.diff(now));
         console.log('Next Event Time:', nextEventTime.format('YYYY-MM-DD HH:mm:ss'));
         console.log('Current Time:', now.format('YYYY-MM-DD HH:mm:ss'));
-        console.log('Duration:', duration.hours(), 'h', duration.minutes(), 'm', duration.seconds(), 's');
-        setTimeUntilNextEvent(`${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`);
+        console.log('Duration:', duration.days(), 'd', duration.hours(), 'h', duration.minutes(), 'm', duration.seconds(), 's');
+        setTimeUntilNextEvent(`${duration.days()}d ${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`);
       };
 
       calculateTimeUntilNextEvent();

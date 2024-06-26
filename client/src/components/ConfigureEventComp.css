@@ -1,29 +1,23 @@
+/* src/components/ConfigureEventComp.css */
+
 .configure-comp-page {
   padding: 20px;
-}
-
-.role-square {
-  width: 120px;
-  height: 80px;
-  margin: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 14px;
-  color: black; /* Ensure text color is always visible */
-  background-color: #f0f0f0; /* Ensure background color is always visible */
-  position: relative;
+  background-color: #181b1e;
+  color: #ffffff;
 }
 
 .unassigned-dropzone {
   margin-bottom: 20px;
-  background-color: #f0f0f0; /* Ensure background color is always visible */
+  padding: 20px;
+  background-color: #23312f;
+  border: 2px solid #86ffcc;
+  border-radius: 10px;
 }
 
 .unassigned-container {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
 .party-container {
@@ -33,30 +27,60 @@
 .roles-container {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
-.remove-button {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background-color: red;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 12px;
-  padding: 2px 5px;
+.role-square {
+  width: 150px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed #86ffcc;
+  border-radius: 5px;
+  background-color: #23312f;
+  color: #ffffff;
 }
 
 .signup-details {
-  display: flex;
-  flex-direction: column;
+  text-align: center;
 }
 
 .signup-name {
-  font-size: 14px; /* Current size font */
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .signup-roles {
-  font-size: 12px; /* Smaller font for roles */
+  font-size: 0.9rem;
+  color: #86ffcc;
+}
+
+.remove-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #ff4d4d;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background-color: #ff0000;
+}
+
+.save-button {
+  padding: 10px 20px;
+  background-color: #e2bb57;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #d1aa46;
 }

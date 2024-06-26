@@ -1,42 +1,49 @@
+/* src/components/ViewComp.css */
+
 .view-comp-page {
-    padding: 20px;
-    color: #fff; /* Ensure all text is white */
-  }
-  
-  .roles-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .role-box {
-    border: 1px dashed #007bff; /* Adjust border color to match site theme */
-    padding: 10px;
-    width: 150px; /* Ensure consistent width */
-    height: 100px; /* Ensure consistent height */
-    text-align: center;
-    background-color: #555; /* Adjust background color to match site theme */
-    color: #fff; /* Ensure text color is white */
-    position: relative; /* Position relative to contain absolute children */
-  }
-  
-  .role-box p {
-    margin: 0;
-    padding: 5px 0;
-  }
-  
-  .assigned-person {
-    position: absolute; /* Absolutely positioned to fill the role box */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 10px; /* Match the padding of the role box */
-    box-sizing: border-box; /* Ensure padding and border are included in size */
-    background-color: green;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Center content vertically */
-  }
-  
+  padding: 20px;
+  background-color: #181b1e; /* Page background color */
+  color: #ffffff;
+}
+
+h1, h2 {
+  color: #86ffcc; /* Match the highlight color */
+}
+
+.party-container {
+  margin-bottom: 20px;
+}
+
+.roles-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.role-square {
+  padding: 10px;
+  border-radius: 5px;
+  width: 120px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  border: 1px dashed black;
+  color: black;
+}
+
+.signup-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signup-name {
+  font-weight: bold;
+}
+
+.signup-role {
+  margin-top: 5px;
+}

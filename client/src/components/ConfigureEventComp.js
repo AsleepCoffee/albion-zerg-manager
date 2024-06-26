@@ -66,14 +66,14 @@ const RoleSquare = ({ party, role, assignedSignup, onDropSignup, onRemoveSignup 
         <>
           <div className="signup-details">
             <div className="signup-name">{assignedSignup.name}</div>
-            <div className="signup-role">{role}</div>
+            <div className="signup-role">{role.replace(/_/g, '.')}</div> {/* Replace underscores with dots */}
           </div>
           <button className="remove-button" onClick={() => onRemoveSignup(party, role)}>
             X
           </button>
         </>
       ) : (
-        role
+        role.replace(/_/g, '.') // Replace underscores with dots
       )}
     </div>
   );
@@ -136,7 +136,7 @@ const ConfigureEventComp = () => {
         for (const party in initialAssignments) {
           populatedAssignments[party] = {};
           for (const role in initialAssignments[party]) {
-            const signupId = initialAssignments[party][role];
+            const signupId = initialAssignments[party][role].name; // Get signup ID
             const signup = allSignups.find((s) => s._id === signupId);
             if (signup) {
               populatedAssignments[party][role] = signup;
@@ -161,25 +161,6 @@ const ConfigureEventComp = () => {
 
     fetchData();
   }, [eventId]);
-
-  useEffect(() => {
-    console.log('Loaded event:', event);
-    console.log('Loaded signups:', signups);
-    console.log('Loaded assigned roles:', assignedRoles);
-
-    if (event && signups.length > 0) {
-      const assigned = { ...assignedRoles };
-      Object.keys(assigned).forEach((partyKey) => {
-        Object.keys(assigned[partyKey]).forEach((roleKey) => {
-          const signup = assigned[partyKey][roleKey];
-          if (signup) {
-            setSignups((prevSignups) => prevSignups.filter((s) => s._id !== signup._id));
-          }
-        });
-      });
-      setAssignedRoles(assigned);
-    }
-  }, [event, signups, assignedRoles]);
 
   const handleDropSignup = (party, role, signup) => {
     console.log('Handling drop signup:', { party, role, signup });
@@ -227,9 +208,13 @@ const ConfigureEventComp = () => {
       for (const party in assignedRoles) {
         transformedAssignments[party] = {};
         for (const role in assignedRoles[party]) {
-          transformedAssignments[party][role] = assignedRoles[party][role]._id;
+          if (assignedRoles[party][role]) {
+            const safeRole = role.replace(/\./g, '_'); // Transform role name
+            transformedAssignments[party][safeRole] = assignedRoles[party][role]._id;
+          }
         }
       }
+      console.log('Transformed assignments before saving:', JSON.stringify(transformedAssignments, null, 2)); // Debug log
       await axios.put(`/api/events/${eventId}/assignments`, { assignedRoles: transformedAssignments });
       alert('Assignments saved successfully!');
     } catch (error) {
@@ -239,16 +224,19 @@ const ConfigureEventComp = () => {
   };
 
   const renderRoleSquares = (party, roles) => {
-    return roles.map((role, index) => (
-      <RoleSquare
-        key={index}
-        party={party}
-        role={role}
-        assignedSignup={assignedRoles[party] ? assignedRoles[party][role] : null}
-        onDropSignup={handleDropSignup}
-        onRemoveSignup={handleUnassignSignup}
-      />
-    ));
+    return roles.map((role, index) => {
+      const safeRole = role.replace(/\./g, '_'); // Transform role name for lookup
+      return (
+        <RoleSquare
+          key={index}
+          party={party}
+          role={safeRole}
+          assignedSignup={assignedRoles[party] ? assignedRoles[party][safeRole] : null}
+          onDropSignup={handleDropSignup}
+          onRemoveSignup={handleUnassignSignup}
+        />
+      );
+    });
   };
 
   const renderParties = (numParties, roles) => {
@@ -283,7 +271,10 @@ const ConfigureEventComp = () => {
           </div>
         </UnassignedDropZone>
         {renderParties(event.parties, comp.slots)}
-        <button className="save-button" onClick={handleSaveAssignments}>Save Assignments</button>
+        <button className="save-button" onClick={() => {
+          console.log('Save button clicked'); // Add this log to verify the button click
+          handleSaveAssignments();
+        }}>Save Assignments</button>
       </div>
     </DndProvider>
   );

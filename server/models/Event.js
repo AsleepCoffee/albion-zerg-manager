@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const AssignedRoleSchema = new mongoose.Schema({
+  role: String,
+  name: String,
+}, { _id: false });
+
 const EventSchema = new mongoose.Schema({
   time: {
     type: Date,
@@ -40,10 +45,7 @@ const EventSchema = new mongoose.Schema({
   },
   assignedRoles: {
     type: Map,
-    of: new mongoose.Schema({
-      name: String,
-      role: String,
-    }),
+    of: Map,
     default: {},
   },
 });

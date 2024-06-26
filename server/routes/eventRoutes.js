@@ -22,6 +22,18 @@ router.get('/:id', async (req, res) => {
 
     const event = await Event.findById(eventId).populate('comp');
     if (!event) return res.status(404).json({ message: 'Event not found' });
+
+    // Transform assignedRoles to replace underscores back to dots in role names
+    const transformedAssignedRoles = {};
+    for (const party in event.assignedRoles) {
+      transformedAssignedRoles[party] = {};
+      for (const role in event.assignedRoles[party]) {
+        const originalRole = role.replace(/_/g, '.');
+        transformedAssignedRoles[party][originalRole] = event.assignedRoles[party][role];
+      }
+    }
+    event.assignedRoles = transformedAssignedRoles;
+
     res.json(event);
   } catch (err) {
     console.error('Error fetching event by ID:', err);
@@ -84,11 +96,25 @@ router.delete('/:id', async (req, res) => {
 router.put('/:id/assignments', async (req, res) => {
   try {
     const { assignedRoles } = req.body;
+    console.log('Received assignedRoles:', JSON.stringify(assignedRoles, null, 2)); // Log received data
+
     const event = await Event.findById(req.params.id);
     if (!event) return res.status(404).json({ message: 'Event not found' });
 
-    event.assignedRoles = assignedRoles;
+    // Transform assignedRoles to replace dots with underscores in role names
+    const transformedAssignedRoles = {};
+    for (const party in assignedRoles) {
+      transformedAssignedRoles[party] = {};
+      for (const role in assignedRoles[party]) {
+        const safeRole = role.replace(/\./g, '_');
+        transformedAssignedRoles[party][safeRole] = { role: role, name: assignedRoles[party][role] };
+      }
+    }
+
+    event.assignedRoles = transformedAssignedRoles;
     await event.save();
+
+    console.log('Updated event:', JSON.stringify(event, null, 2)); // Log updated event
     res.json(event);
   } catch (err) {
     console.error('Error saving role assignments:', err);

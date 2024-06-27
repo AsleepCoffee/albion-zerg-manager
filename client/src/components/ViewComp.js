@@ -29,12 +29,12 @@ const ViewComp = () => {
         const populatedAssignments = {};
         for (const party in initialAssignments) {
           populatedAssignments[party] = {};
-          for (const role in initialAssignments[party]) {
-            const signupName = initialAssignments[party][role].name;
-            const roleName = initialAssignments[party][role].role;
+          for (const roleKey in initialAssignments[party]) {
+            const signupName = initialAssignments[party][roleKey].name;
+            const roleName = initialAssignments[party][roleKey].role;
             const signup = allSignups.find((s) => s.name === signupName);
             if (signup) {
-              populatedAssignments[party][role] = { name: signup.name, role: roleName };
+              populatedAssignments[party][roleKey] = { name: signup.name, role: roleName };
             }
           }
         }
@@ -49,8 +49,8 @@ const ViewComp = () => {
 
   const renderRoleSquares = (party, roles) => {
     return roles.map((role, index) => {
-      const safeRole = role.replace(/\./g, '_'); // Transform role name for lookup
-      const assignedSignup = assignedRoles[party] ? assignedRoles[party][safeRole] : null;
+      const uniqueRoleKey = `${party}-role-${index}`; // Use the same unique key generation logic
+      const assignedSignup = assignedRoles[party] ? assignedRoles[party][uniqueRoleKey] : null;
       return (
         <div
           key={index}
@@ -62,14 +62,13 @@ const ViewComp = () => {
           }}
         >
           {assignedSignup ? (
-            <>
-              <div className="signup-details">
-                <div className="signup-name">{assignedSignup.name}</div>
-                <div className="signup-role">{assignedSignup.role}</div>
+            <div className="signup-details">
+              <div className="signup-name">{assignedSignup.name}</div>
+              <div className="signup-role">{role}
               </div>
-            </>
+            </div>
           ) : (
-            role.replace(/_/g, '.') // Replace underscores with dots
+            role // Directly display the role name
           )}
         </div>
       );

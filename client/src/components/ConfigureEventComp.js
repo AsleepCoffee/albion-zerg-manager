@@ -41,12 +41,12 @@ const SignupSquare = ({ signup }) => {
   );
 };
 
-const RoleSquare = ({ party, role, assignedSignup, onDropSignup, onRemoveSignup }) => {
+const RoleSquare = ({ party, roleKey, roleName, assignedSignup, onDropSignup, onRemoveSignup }) => {
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.SIGNUP,
     drop: (item) => {
-      console.log(`Dropped ${item.signup.name} into ${party} - ${role}`);
-      onDropSignup(party, role, item.signup);
+      console.log(`Dropped ${item.signup.name} into ${party} - ${roleName}`);
+      onDropSignup(party, roleKey, item.signup);
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -67,14 +67,14 @@ const RoleSquare = ({ party, role, assignedSignup, onDropSignup, onRemoveSignup 
         <>
           <div className="signup-details">
             <div className="signup-name">{assignedSignup.name}</div>
-            <div className="signup-role">{assignedSignup.role}</div>
+            <div className="signup-role">{roleName}</div>
           </div>
-          <button className="remove-button" onClick={() => onRemoveSignup(party, role)}>
+          <button className="remove-button" onClick={() => onRemoveSignup(party, roleKey)}>
             X
           </button>
         </>
       ) : (
-        role.replace(/_/g, '.')
+        roleName.replace(/_/g, '.')
       )}
     </div>
   );
@@ -135,12 +135,12 @@ const ConfigureEventComp = () => {
         const populatedAssignments = {};
         for (const party in initialAssignments) {
           populatedAssignments[party] = {};
-          for (const role in initialAssignments[party]) {
-            const signupName = initialAssignments[party][role].name;
-            const roleName = initialAssignments[party][role].role;
+          for (const roleKey in initialAssignments[party]) {
+            const signupName = initialAssignments[party][roleKey].name;
+            const roleName = initialAssignments[party][roleKey].role;
             const signup = allSignups.find((s) => s.name === signupName);
             if (signup) {
-              populatedAssignments[party][role] = { name: signup.name, role: roleName, ...signup };
+              populatedAssignments[party][roleKey] = { name: signup.name, role: roleName, ...signup };
             }
           }
         }
@@ -162,14 +162,14 @@ const ConfigureEventComp = () => {
     fetchData();
   }, [eventId]);
 
-  const handleDropSignup = (party, role, signup) => {
-    console.log('Handling drop signup:', { party, role, signup });
-    if (party && role) {
+  const handleDropSignup = (party, roleKey, signup) => {
+    console.log('Handling drop signup:', { party, roleKey, signup });
+    if (party && roleKey) {
       setAssignedRoles((prev) => ({
         ...prev,
         [party]: {
           ...prev[party],
-          [role]: { name: signup.name, role, firstPick: signup.firstPick, secondPick: signup.secondPick, thirdPick: signup.thirdPick },
+          [roleKey]: { ...signup, role: roleKey }, // Use unique role key
         },
       }));
       setSignups((prev) => prev.filter((s) => s._id !== signup._id));
@@ -189,12 +189,12 @@ const ConfigureEventComp = () => {
     }
   };
 
-  const handleUnassignSignup = (party, role) => {
-    const signup = assignedRoles[party][role];
-    console.log('Unassigning signup:', { party, role, signup });
+  const handleUnassignSignup = (party, roleKey) => {
+    const signup = assignedRoles[party][roleKey];
+    console.log('Unassigning signup:', { party, roleKey, signup });
     setAssignedRoles((prev) => {
       const newAssignedRoles = { ...prev };
-      delete newAssignedRoles[party][role];
+      delete newAssignedRoles[party][roleKey];
       return newAssignedRoles;
     });
     setSignups((prev) => [...prev, signup]);
@@ -206,10 +206,9 @@ const ConfigureEventComp = () => {
       const transformedAssignments = {};
       for (const party in assignedRoles) {
         transformedAssignments[party] = {};
-        for (const role in assignedRoles[party]) {
-          if (assignedRoles[party][role]) {
-            const safeRole = role.replace(/\./g, '_'); // Transform role name
-            transformedAssignments[party][safeRole] = assignedRoles[party][role];
+        for (const roleKey in assignedRoles[party]) {
+          if (assignedRoles[party][roleKey]) {
+            transformedAssignments[party][roleKey] = assignedRoles[party][roleKey];
           }
         }
       }
@@ -224,13 +223,14 @@ const ConfigureEventComp = () => {
 
   const renderRoleSquares = (party, roles) => {
     return roles.map((role, index) => {
-      const safeRole = role.replace(/\./g, '_'); // Transform role name for lookup
+      const uniqueRoleKey = `${party}-role-${index}`; // Create a unique key for each role
       return (
         <RoleSquare
           key={index}
           party={party}
-          role={safeRole}
-          assignedSignup={assignedRoles[party] ? assignedRoles[party][safeRole] : null}
+          roleKey={uniqueRoleKey} // Pass the unique key instead of the role name
+          roleName={role} // Pass the actual role name for display
+          assignedSignup={assignedRoles[party] ? assignedRoles[party][uniqueRoleKey] : null}
           onDropSignup={handleDropSignup}
           onRemoveSignup={handleUnassignSignup}
         />

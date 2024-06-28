@@ -7,12 +7,13 @@ const SignUp = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
+  const [comps, setComps] = useState([]);
+  const [assignedRoles, setAssignedRoles] = useState({});
+  const [loading, setLoading] = useState(true);
   const [name, setName] = useState('');
   const [firstPick, setFirstPick] = useState('');
   const [secondPick, setSecondPick] = useState('');
   const [thirdPick, setThirdPick] = useState('');
-  const [roles, setRoles] = useState([]);
-  const [assignedRoles, setAssignedRoles] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,27 +22,41 @@ const SignUp = () => {
         const fetchedEvent = eventResponse.data;
         setEvent(fetchedEvent);
 
+        const compIds = fetchedEvent.partyComps.map(comp => comp._id ? comp._id.toString() : comp.toString());
         const compResponses = await Promise.all(
-          fetchedEvent.partyComps.map(comp => axios.get(`/api/comps/${comp._id}`))
+          compIds.map(compId => axios.get(`/api/comps/${compId}`))
         );
         const fetchedComps = compResponses.map(response => response.data);
+        setComps(fetchedComps);
 
-        const allRoles = fetchedComps.flatMap(comp => comp.slots);
-        setRoles(allRoles);
+        const signupResponse = await axios.get(`/api/signups/${eventId}`);
+        const allSignups = signupResponse.data;
 
-        const assignedRolesList = [];
-        for (const party in fetchedEvent.assignedRoles) {
-          for (const role in fetchedEvent.assignedRoles[party]) {
-            assignedRolesList.push({
-              party,
-              role,
-              name: fetchedEvent.assignedRoles[party][role].name,
-            });
+        const initialAssignments = fetchedEvent.assignedRoles || {};
+        const populatedAssignments = {};
+        for (const party in initialAssignments) {
+          populatedAssignments[party] = {};
+          for (const roleKey in initialAssignments[party]) {
+            const signupName = initialAssignments[party][roleKey].name;
+            const roleName = initialAssignments[party][roleKey].role;
+            const signup = allSignups.find((s) => s.name === signupName);
+            if (signup) {
+              const roleIndex = parseInt(roleName.split('-').pop(), 10);
+              const compId = compIds[0]; // Assuming single comp for simplicity
+              const comp = fetchedComps.find(comp => comp._id === compId);
+              if (comp) {
+                console.log(`Role Index: ${roleIndex}, Role: ${comp.slots[roleIndex]}`);
+                const role = comp.slots[roleIndex];
+                populatedAssignments[party][roleKey] = { name: signup.name, role: role };
+              }
+            }
           }
         }
-        setAssignedRoles(assignedRolesList);
+        setAssignedRoles(populatedAssignments);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
+        setLoading(false);
       }
     };
 
@@ -62,7 +77,7 @@ const SignUp = () => {
       const response = await axios.post('/api/signups', signupData);
       if (response.status === 201) {
         alert('Signed up successfully!');
-        navigate(-1);  // Go back to the previous page
+        navigate(-1);
       } else {
         alert('Failed to sign up.');
       }
@@ -71,8 +86,28 @@ const SignUp = () => {
     }
   };
 
-  const filteredRoles = (role, selectedRoles) => {
-    return !assignedRoles.some(assignedRole => assignedRole.role === role) && !selectedRoles.includes(role);
+  const renderRoleAssignments = () => {
+    const assignments = [];
+    for (const party in assignedRoles) {
+      for (const roleKey in assignedRoles[party]) {
+        const assignment = assignedRoles[party][roleKey];
+        assignments.push(
+          <div key={`${party}-${roleKey}`} className="assigned-role">
+            <span>{assignment.name} - {assignment.role} (Party: {party})</span>
+          </div>
+        );
+      }
+    }
+    return assignments;
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const filteredRoles = (selectedRole, selectedRoles) => {
+    return !Object.values(assignedRoles).some(partyRoles => Object.values(partyRoles).some(assignedRole => assignedRole.role === selectedRole)) &&
+      !selectedRoles.includes(selectedRole);
   };
 
   return (
@@ -102,7 +137,7 @@ const SignUp = () => {
                 className="input-field"
               >
                 <option value="">Select a Role</option>
-                {roles.filter(role => filteredRoles(role, [secondPick, thirdPick])).map((role, index) => (
+                {comps.flatMap(comp => comp.slots).filter(role => filteredRoles(role, [secondPick, thirdPick])).map((role, index) => (
                   <option key={index} value={role}>{role}</option>
                 ))}
               </select>
@@ -116,7 +151,7 @@ const SignUp = () => {
                 className="input-field"
               >
                 <option value="">Select a Role</option>
-                {roles.filter(role => filteredRoles(role, [firstPick, thirdPick])).map((role, index) => (
+                {comps.flatMap(comp => comp.slots).filter(role => filteredRoles(role, [firstPick, thirdPick])).map((role, index) => (
                   <option key={index} value={role}>{role}</option>
                 ))}
               </select>
@@ -130,7 +165,7 @@ const SignUp = () => {
                 className="input-field"
               >
                 <option value="">Select a Role</option>
-                {roles.filter(role => filteredRoles(role, [firstPick, secondPick])).map((role, index) => (
+                {comps.flatMap(comp => comp.slots).filter(role => filteredRoles(role, [firstPick, secondPick])).map((role, index) => (
                   <option key={index} value={role}>{role}</option>
                 ))}
               </select>
@@ -140,13 +175,7 @@ const SignUp = () => {
           <div className="assigned-roles">
             <h2>Assigned Roles</h2>
             <div className="assigned-roles-container">
-              {assignedRoles.map((assignedRole, index) => (
-                <div key={index} className="assigned-role">
-                  <span className="role-name">{assignedRole.role}</span>
-                  <span className="role-party">Party: {assignedRole.party}</span>
-                  <span className="role-assigned">Assigned to: {assignedRole.name}</span>
-                </div>
-              ))}
+              {renderRoleAssignments()}
             </div>
           </div>
         </div>

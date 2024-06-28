@@ -75,3 +75,11 @@ label {
 .role-assigned {
   font-size: 14px;
 }
+
+/* New CSS rule for the role images */
+.role-image {
+  max-width: 50%;
+  max-height: 50%;
+  display: block;
+  margin: 0 auto;
+}

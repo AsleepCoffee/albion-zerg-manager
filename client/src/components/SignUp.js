@@ -91,9 +91,17 @@ const SignUp = () => {
     for (const party in assignedRoles) {
       for (const roleKey in assignedRoles[party]) {
         const assignment = assignedRoles[party][roleKey];
+        const imagePath = `/images/${assignment.role.replace(/\s+/g, '%20')}.png`;
+        console.log(`Image Path: ${imagePath}`); // Debugging image path
         assignments.push(
           <div key={`${party}-${roleKey}`} className="assigned-role">
             <span>{assignment.name} - {assignment.role} (Party: {party})</span>
+            <img 
+              src={imagePath} 
+              alt={assignment.role} 
+              className="role-image" 
+              onError={(e) => e.target.style.display = 'none'} // Hide image if not found
+            />
           </div>
         );
       }

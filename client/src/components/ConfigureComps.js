@@ -3,6 +3,26 @@ import axios from 'axios';
 import AdminNavBar from './AdminNavBar';
 import './ConfigureComps.css';
 
+// Define the list of roles
+const roleNames = [
+  'Arcane Staff', 'Astral Staff', 'Battleaxe', 'Battle Bracers', 'Bear Paws', 'Bedrock Mace', 'Black Monk Stave',
+  'Blazing Staff', 'Blight Staff', 'Bloodletter', 'Bloodmoon Staff', 'Boltcasters', 'Bow of Badon', 'Bow', 'Brawler Gloves',
+  'Bridled Fury', 'Brimstone Staff', 'Broadsword', 'Camlann Mace', 'Carrioncaller', 'Carving Sword', 'Chillhowl', 'Clarent Blade',
+  'Claws', 'Claymore', 'Crossbow', 'Cursed Skull', 'Cursed Staff', 'Dagger Pair', 'Dagger', 'Damnation Staff', 'Dawnsong', 
+  'Daybreaker', 'Deathgivers', 'Demonfang', 'Demonic Staff', 'Divine Staff', 'Double Bladed Staff', 'Druidic Staff', 'Dual Swords',
+  'Earthrune Staff', 'Energy Shaper', 'Enigmatic Staff', 'Evensong', 'Fallen Staff', 'Fire Staff', 'Fists of Avalon', 'Forge Hammers',
+  'Frost Staff', 'Galatine Pair', 'Glacial Staff', 'Glaive', 'Grailseeker', 'Great Arcane Staff', 'Greataxe', 'Great Cursed Staff',
+  'Great Fire Staff', 'Great Frost Staff', 'Great Hammer', 'Great Holy Staff', 'Great Nature Staff', 'Grovekeeper', 'Halberd',
+  'Hallowfall', 'Hammer', 'Hand of Justice', 'Heavy Crossbow', 'Heavy Mace', 'Hellfire Hands', 'Hellspawn Staff', 'Heron Spear',
+  'Hoarfrost Staff', 'Holy Staff', 'Icicle Staff', 'Incubus Mace', 'Infernal Scythe', 'Infernal Staff', 'Infinity Blade', 'Iron-clad Staff',
+  'Ironroot Staff', 'Kingmaker', 'Lifecurse Staff', 'Lifetouch Staff', 'Lightcaller', 'Light Crossbow', 'Longbow', 'Mace',
+  'Malevolent Locus', 'Mistpiercer', 'Morning Star', 'Nature Staff', 'Oathkeepers', 'Occult Staff', 'Permafrost Prism', 'Pike', 
+  'Polehammer', 'Primal Staff', 'Prowling Staff', 'Quarterstaff', 'Rampant Staff', 'Ravenstrike Cestus', 'Realmbreaker', 'Redemption Staff',
+  'Rift Glaive', 'Rootbound Staff', 'Shadowcaller', 'Siegebow', 'Soulscythe', 'Spear', 'Spiked Gauntlets', 'Spirithunter',
+  'Staff of Balance', 'Tombhammer', 'Trinity Spear', 'Ursine Maulers', 'Wailing Bow', 'Warbow', 'Weeping Repeater', 'Whispering Bow',
+  'Wildfire Staff', 'Wild Staff', 'Witchwork Staff'
+];
+
 const ConfigureComp = () => {
   const [compName, setCompName] = useState('');
   const [slots, setSlots] = useState(Array(20).fill(''));
@@ -92,13 +112,19 @@ const ConfigureComp = () => {
           {slots.map((slot, index) => (
             <div key={index} className="slot-input">
               <label htmlFor={`slot-${index}`}>Slot {index + 1}:</label>
-              <input
-                type="text"
+              <select
                 id={`slot-${index}`}
                 value={slot}
                 onChange={(e) => handleSlotChange(index, e.target.value)}
                 required
-              />
+              >
+                <option value="">Select a role</option>
+                {roleNames.map((role, roleIndex) => (
+                  <option key={roleIndex} value={role}>
+                    {role}
+                  </option>
+                ))}
+              </select>
             </div>
           ))}
         </div>

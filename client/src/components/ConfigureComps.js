@@ -3,7 +3,7 @@ import axios from 'axios';
 import AdminNavBar from './AdminNavBar';
 import './ConfigureComps.css';
 
-// Define the list of roles
+// Updated list of role names
 const roleNames = [
   'Arcane Staff', 'Astral Staff', 'Battleaxe', 'Battle Bracers', 'Bear Paws', 'Bedrock Mace', 'Black Monk Stave',
   'Blazing Staff', 'Blight Staff', 'Bloodletter', 'Bloodmoon Staff', 'Boltcasters', 'Bow of Badon', 'Bow', 'Brawler Gloves',
@@ -20,7 +20,9 @@ const roleNames = [
   'Polehammer', 'Primal Staff', 'Prowling Staff', 'Quarterstaff', 'Rampant Staff', 'Ravenstrike Cestus', 'Realmbreaker', 'Redemption Staff',
   'Rift Glaive', 'Rootbound Staff', 'Shadowcaller', 'Siegebow', 'Soulscythe', 'Spear', 'Spiked Gauntlets', 'Spirithunter',
   'Staff of Balance', 'Tombhammer', 'Trinity Spear', 'Ursine Maulers', 'Wailing Bow', 'Warbow', 'Weeping Repeater', 'Whispering Bow',
-  'Wildfire Staff', 'Wild Staff', 'Witchwork Staff'
+  'Wildfire Staff', 'Wild Staff', 'Witchwork Staff',
+  'Ancient Ent', 'Battle Eagle', 'Battle Rhino', 'Behemoth', 'Colossus Beetle', 'Goliath Horseeater',
+  'Juggernaut', 'Phalanx Beetle', 'Roving Bastion', 'Tower Chariot'
 ];
 
 const ConfigureComp = () => {

@@ -18,6 +18,10 @@ const AdminPanel = () => {
     navigate('/configure-comps');
   };
 
+  const handlePlayerLookup = () => {
+    navigate('/player-lookup');
+  };
+
   return (
     <div className="admin-panel">
       <AdminNavBar />
@@ -26,6 +30,7 @@ const AdminPanel = () => {
         <button className="button" onClick={handleSetupEvent}>Setup Event</button>
         <button className="button" onClick={handleConfigureEvent}>Configure Event</button>
         <button className="button" onClick={handleConfigureComps}>Configure Comps</button>
+        <button className="button" onClick={handlePlayerLookup}>Player Lookup</button>
       </div>
     </div>
   );

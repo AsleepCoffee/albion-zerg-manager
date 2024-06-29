@@ -1,85 +1,142 @@
-.signup-page {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+.specific-signup-page {
+  padding-left: 50px; /* Add left padding */
+  padding-right: 50px; /* Add right padding */
+  padding-top: 10px; /* Add top padding */
 }
 
-.signup-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.signup-form {
-  flex: 1;
+.specific-signup-page .signup-page {
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
+  align-items: center;
+  padding: 20px;
+  color: #e2bb57;
 }
 
-.form-group {
+.specific-signup-page .signup-header {
+  color: white; /* White font color for the header */
+}
+
+.specific-signup-page .signup-and-roles {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; /* Adjust to fill the width */
+}
+
+.specific-signup-page .signup-container {
+  flex: 1;
+  margin-right: 20px;
+  background-color: #23312f;
+  padding: 20px;
+  border: 1px solid #86ffcc;
+  border-radius: 10px;
+}
+
+.specific-signup-page .signup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.specific-signup-page .form-group {
   margin-bottom: 15px;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+.specific-signup-page .form-group label {
+  color: white; /* White font for labels */
 }
 
-.input-field {
+.specific-signup-page .input-field {
   width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #86ffcc;
+  border-radius: 5px;
+  background-color: #4f5a59; /* Change background color */
+  color: white; /* White text color */
 }
 
-.signup-button {
-  padding: 10px 15px;
-  background-color: #4CAF50;
-  color: white;
+.specific-signup-page .signup-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #e2bb57;
   border: none;
+  border-radius: 5px;
+  color: white;
   cursor: pointer;
-  margin-top: 10px;
 }
 
-.signup-button:hover {
-  background-color: #45a049;
-}
-
-.assigned-roles {
+.specific-signup-page .assigned-roles-container-wrapper {
   flex: 1;
-  margin-left: 20px;
 }
 
-.assigned-roles-container {
+.specific-signup-page .assigned-roles {
+  background-color: #23312f;
+  padding: 20px;
+  border: 1px solid #86ffcc;
+  border-radius: 10px;
+}
+
+.specific-signup-page .assigned-roles-title {
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.specific-signup-page .assigned-roles-container {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
-.assigned-role {
-  background-color: #23312f;
-  border: 1px solid #86ffcc;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
+.specific-signup-page .assigned-role {
+  width: 50px;
+  height: 50px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.specific-signup-page .role-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none; /* Remove border */
+  outline: none; /* Remove outline */
+}
+
+.specific-signup-page .event-info {
+  width: 80%;
+  margin-bottom: 20px;
   color: white;
+  text-align: left; /* Left justify the text */
 }
 
-.role-name {
-  font-weight: bold;
-  margin-bottom: 5px;
+.specific-signup-page .event-rewards {
+  color: #403b29;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
-.role-party,
-.role-assigned {
+.specific-signup-page .event-date {
+  color: #e2bb57;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.specific-signup-page .event-type {
+  color: #ffffff !important;
+  font-size: 25px !important; /* Increase font size by 4 points */
+  margin-bottom: 10px;
+  transform: none !important; /* Ensure no rotation */
+  writing-mode: horizontal-tb !important; /* Ensure horizontal text direction */
+  text-align: left !important; /* Ensure left alignment */
+}
+
+.specific-signup-page .event-details {
+  color: white;
   font-size: 14px;
 }
 
-/* New CSS rule for the role images */
-.role-image {
-  max-width: 50%;
-  max-height: 50%;
-  display: block;
-  margin: 0 auto;
+.specific-signup-page .event-details .label {
+  color: #86ffcc;
 }

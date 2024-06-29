@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 import './SignUp.css';
 
 const SignUp = () => {
@@ -63,6 +64,27 @@ const SignUp = () => {
     fetchData();
   }, [eventId]);
 
+  const getFilteredRoles = (excludedRoles) => {
+    const allRoles = comps.flatMap(comp => comp.slots);
+    const roleCounts = allRoles.reduce((acc, role) => {
+      acc[role] = (acc[role] || 0) + 1;
+      return acc;
+    }, {});
+    const assignedRoleCounts = Object.values(assignedRoles).flatMap(Object.values).reduce((acc, assignedRole) => {
+      acc[assignedRole.role] = (acc[assignedRole.role] || 0) + 1;
+      return acc;
+    }, {});
+    const selectedRoleCounts = excludedRoles.reduce((acc, role) => {
+      acc[role] = (acc[role] || 0) + 1;
+      return acc;
+    }, {});
+
+    return Object.keys(roleCounts).filter(role => {
+      const totalAssigned = (assignedRoleCounts[role] || 0) + (selectedRoleCounts[role] || 0);
+      return roleCounts[role] > totalAssigned;
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const signupData = {
@@ -95,7 +117,6 @@ const SignUp = () => {
         console.log(`Image Path: ${imagePath}`); // Debugging image path
         assignments.push(
           <div key={`${party}-${roleKey}`} className="assigned-role">
-            <span>{assignment.name} - {assignment.role} (Party: {party})</span>
             <img 
               src={imagePath} 
               alt={assignment.role} 
@@ -113,97 +134,93 @@ const SignUp = () => {
     return <div>Loading...</div>;
   }
 
-  const getFilteredRoles = (excludedRoles) => {
-    const allRoles = comps.flatMap(comp => comp.slots);
-    const roleCounts = allRoles.reduce((acc, role) => {
-      acc[role] = (acc[role] || 0) + 1;
-      return acc;
-    }, {});
-    const assignedRoleCounts = Object.values(assignedRoles).flatMap(Object.values).reduce((acc, assignedRole) => {
-      acc[assignedRole.role] = (acc[assignedRole.role] || 0) + 1;
-      return acc;
-    }, {});
-    const selectedRoleCounts = excludedRoles.reduce((acc, role) => {
-      acc[role] = (acc[role] || 0) + 1;
-      return acc;
-    }, {});
-
-    return Object.keys(roleCounts).filter(role => {
-      const totalAssigned = (assignedRoleCounts[role] || 0) + (selectedRoleCounts[role] || 0);
-      return roleCounts[role] > totalAssigned;
-    });
-  };
-
   return (
-    <div className="signup-page">
-      <h1>Sign Up for Event</h1>
+    <div className="signup-page specific-signup-page">
+      <h1 className="signup-header">Sign Up for Event</h1>
       {event && (
-        <div className="signup-container">
-          <form onSubmit={handleSubmit} className="signup-form">
-            <div className="form-group">
-              <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="input-field"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="firstPick">First Pick:</label>
-              <select
-                id="firstPick"
-                value={firstPick}
-                onChange={(e) => setFirstPick(e.target.value)}
-                required
-                className="input-field"
-              >
-                <option value="">Select a Role</option>
-                {getFilteredRoles([secondPick, thirdPick]).map((role, index) => (
-                  <option key={index} value={role}>{role}</option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="secondPick">Second Pick:</label>
-              <select
-                id="secondPick"
-                value={secondPick}
-                onChange={(e) => setSecondPick(e.target.value)}
-                className="input-field"
-              >
-                <option value="">Select a Role</option>
-                {getFilteredRoles([firstPick, thirdPick]).map((role, index) => (
-                  <option key={index} value={role}>{role}</option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="thirdPick">Third Pick:</label>
-              <select
-                id="thirdPick"
-                value={thirdPick}
-                onChange={(e) => setThirdPick(e.target.value)}
-                className="input-field"
-              >
-                <option value="">Select a Role</option>
-                {getFilteredRoles([firstPick, secondPick]).map((role, index) => (
-                  <option key={index} value={role}>{role}</option>
-                ))}
-              </select>
-            </div>
-            <button type="submit" className="signup-button">Sign Up</button>
-          </form>
+        <div className="event-info">
+          <p className="event-rewards">{event.rewards}</p>
+          <p className="event-date">{moment(event.time).format('dddd, MMMM D - HH:mm [UTC]')}</p>
+          <p className="event-type" style={{ color: '#ffffff', fontSize: '24px', transform: 'none', writingMode: 'horizontal-tb', textAlign: 'left' }}>{event.eventType}</p>
+          <p className="event-details">
+            <span className="label">Comp:</span> {event.partyComps && event.partyComps.length > 0 ? event.partyComps[0].name : 'N/A'} |
+            <span className="label"> Caller:</span> {event.caller} |
+            <span className="label"> Hammers:</span> {event.hammers} |
+            <span className="label"> Sets:</span> {event.sets}
+          </p>
+        </div>
+      )}
+      <div className="signup-and-roles">
+        {event && (
+          <div className="signup-container">
+            <form onSubmit={handleSubmit} className="signup-form">
+              <div className="form-group">
+                <label htmlFor="name">Name:</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="input-field"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="firstPick">First Pick:</label>
+                <select
+                  id="firstPick"
+                  value={firstPick}
+                  onChange={(e) => setFirstPick(e.target.value)}
+                  required
+                  className="input-field"
+                >
+                  <option value="">Select a Role</option>
+                  {getFilteredRoles([secondPick, thirdPick]).map((role, index) => (
+                    <option key={index} value={role}>{role}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="secondPick">Second Pick:</label>
+                <select
+                  id="secondPick"
+                  value={secondPick}
+                  onChange={(e) => setSecondPick(e.target.value)}
+                  className="input-field"
+                >
+                  <option value="">Select a Role</option>
+                  {getFilteredRoles([firstPick, thirdPick]).map((role, index) => (
+                    <option key={index} value={role}>{role}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="thirdPick">Third Pick:</label>
+                <select
+                  id="thirdPick"
+                  value={thirdPick}
+                  onChange={(e) => setThirdPick(e.target.value)}
+                  className="input-field"
+                >
+                  <option value="">Select a Role</option>
+                  {getFilteredRoles([firstPick, secondPick]).map((role, index) => (
+                    <option key={index} value={role}>{role}</option>
+                  ))}
+                </select>
+              </div>
+              <button type="submit" className="signup-button">Sign Up</button>
+            </form>
+          </div>
+        )}
+        <div className="assigned-roles-container-wrapper">
+          <h2 className="assigned-roles-title">Assigned Roles</h2>
           <div className="assigned-roles">
-            <h2>Assigned Roles</h2>
             <div className="assigned-roles-container">
               {renderRoleAssignments()}
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -113,9 +113,25 @@ const SignUp = () => {
     return <div>Loading...</div>;
   }
 
-  const filteredRoles = (selectedRole, selectedRoles) => {
-    return !Object.values(assignedRoles).some(partyRoles => Object.values(partyRoles).some(assignedRole => assignedRole.role === selectedRole)) &&
-      !selectedRoles.includes(selectedRole);
+  const getFilteredRoles = (excludedRoles) => {
+    const allRoles = comps.flatMap(comp => comp.slots);
+    const roleCounts = allRoles.reduce((acc, role) => {
+      acc[role] = (acc[role] || 0) + 1;
+      return acc;
+    }, {});
+    const assignedRoleCounts = Object.values(assignedRoles).flatMap(Object.values).reduce((acc, assignedRole) => {
+      acc[assignedRole.role] = (acc[assignedRole.role] || 0) + 1;
+      return acc;
+    }, {});
+    const selectedRoleCounts = excludedRoles.reduce((acc, role) => {
+      acc[role] = (acc[role] || 0) + 1;
+      return acc;
+    }, {});
+
+    return Object.keys(roleCounts).filter(role => {
+      const totalAssigned = (assignedRoleCounts[role] || 0) + (selectedRoleCounts[role] || 0);
+      return roleCounts[role] > totalAssigned;
+    });
   };
 
   return (
@@ -145,7 +161,7 @@ const SignUp = () => {
                 className="input-field"
               >
                 <option value="">Select a Role</option>
-                {comps.flatMap(comp => comp.slots).filter(role => filteredRoles(role, [secondPick, thirdPick])).map((role, index) => (
+                {getFilteredRoles([secondPick, thirdPick]).map((role, index) => (
                   <option key={index} value={role}>{role}</option>
                 ))}
               </select>
@@ -159,7 +175,7 @@ const SignUp = () => {
                 className="input-field"
               >
                 <option value="">Select a Role</option>
-                {comps.flatMap(comp => comp.slots).filter(role => filteredRoles(role, [firstPick, thirdPick])).map((role, index) => (
+                {getFilteredRoles([firstPick, thirdPick]).map((role, index) => (
                   <option key={index} value={role}>{role}</option>
                 ))}
               </select>
@@ -173,7 +189,7 @@ const SignUp = () => {
                 className="input-field"
               >
                 <option value="">Select a Role</option>
-                {comps.flatMap(comp => comp.slots).filter(role => filteredRoles(role, [firstPick, secondPick])).map((role, index) => (
+                {getFilteredRoles([firstPick, secondPick]).map((role, index) => (
                   <option key={index} value={role}>{role}</option>
                 ))}
               </select>

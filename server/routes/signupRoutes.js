@@ -17,10 +17,26 @@ router.get('/:eventId', async (req, res) => {
 // Add a new signup
 router.post('/', async (req, res) => {
   const { eventId, name, firstPick, secondPick, thirdPick } = req.body;
-  const signup = new SignUp({ eventId, name, firstPick, secondPick, thirdPick });
+  
   try {
-    const newSignup = await signup.save();
-    res.status(201).json(newSignup);
+    // Validate required fields
+    if (!eventId || !name) {
+      return res.status(400).json({ message: 'eventId and name are required fields' });
+    }
+
+    // Create new signup object
+    const newSignup = new SignUp({
+      eventId,
+      name,
+      firstPick: firstPick === 'BLANK' ? null : firstPick,
+      secondPick: secondPick === 'BLANK' ? null : secondPick,
+      thirdPick: thirdPick === 'BLANK' ? null : thirdPick,
+    });
+
+    // Save the signup to the database
+    const savedSignup = await newSignup.save();
+
+    res.status(201).json(savedSignup);
   } catch (err) {
     console.error('Error creating signup:', err);
     res.status(400).json({ message: err.message });

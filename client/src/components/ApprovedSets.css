@@ -1,0 +1,86 @@
+.approved-sets {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .dropdowns {
+    margin-bottom: 20px;
+  }
+  
+  .image-container {
+    position: relative;
+    width: 50%; /* Adjust as needed */
+    max-width: 600px; /* Adjust as needed */
+  }
+  
+  .background-image {
+    width: 50%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Positioning images in the respective slots */
+  .bag-image {
+    position: absolute;
+    top: 12%; /* Adjust as needed to place in the red box */
+    left: 4%; /* Adjust as needed to place in the red box */
+    width: 8%; /* Adjust size as needed */
+    height: auto;
+    transform: scale(2.0); /* Adjust the scaling factor as needed */
+  }
+  
+  .cape-image {
+    position: absolute;
+    top: 12%; /* Adjust as needed to place in the respective slot */
+    left: 38.5%; /* Adjust as needed to place in the respective slot */
+    width: 8%; /* Adjust size as needed */
+    height: auto;
+    transform: scale(2.0); /* Adjust the scaling factor as needed */
+  }
+  
+  .helm-image {
+    position: absolute;
+    top: 32%; /* Adjust as needed to place in the respective slot */
+    left: 35%; /* Adjust as needed to place in the respective slot */
+    width: 8%; /* Adjust size as needed */
+    height: auto;
+    transform: scale(0.8); /* Adjust the scaling factor as needed */
+  }
+  
+  .weapon-image {
+    position: absolute;
+    top: 42%; /* Adjust as needed to place in the respective slot */
+    left: 40%; /* Adjust as needed to place in the respective slot */
+    width: 8%; /* Adjust size as needed */
+    height: auto;
+    transform: scale(0.8); /* Adjust the scaling factor as needed */
+  }
+  
+  .offhand-image {
+    position: absolute;
+    top: 52%; /* Adjust as needed to place in the respective slot */
+    left: 45%; /* Adjust as needed to place in the respective slot */
+    width: 8%; /* Adjust size as needed */
+    height: auto;
+    transform: scale(0.8); /* Adjust the scaling factor as needed */
+  }
+  
+  .chest-image {
+    position: absolute;
+    top: 62%; /* Adjust as needed to place in the respective slot */
+    left: 50%; /* Adjust as needed to place in the respective slot */
+    width: 8%; /* Adjust size as needed */
+    height: auto;
+    transform: scale(0.8); /* Adjust the scaling factor as needed */
+  }
+  
+  .boots-image {
+    position: absolute;
+    top: 72%; /* Adjust as needed to place in the respective slot */
+    left: 55%; /* Adjust as needed to place in the respective slot */
+    width: 8%; /* Adjust size as needed */
+    height: auto;
+    transform: scale(0.8); /* Adjust the scaling factor as needed */
+  }
+  

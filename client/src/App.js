@@ -11,7 +11,8 @@ import ViewComp from './components/ViewComp';
 import SignUp from './components/SignUp';
 import EventSignups from './components/EventSignups';
 import EditEventInformation from './components/EditEventInformation';
-import PlayerLookup from './components/PlayerLookup'; // Import the PlayerLookup component
+import PlayerLookup from './components/PlayerLookup';
+import ApprovedSets from './components/ApprovedSets'; // Import the ApprovedSets component
 import './App.css';
 
 function App() {
@@ -30,7 +31,8 @@ function App() {
           <Route path="/signup/:eventId" element={<SignUp />} />
           <Route path="/event-signups/:eventId" element={<EventSignups />} />
           <Route path="/edit-event-information/:eventId" element={<EditEventInformation />} />
-          <Route path="/player-lookup" element={<PlayerLookup />} /> {/* Add the new route here */}
+          <Route path="/player-lookup" element={<PlayerLookup />} />
+          <Route path="/approved-sets" element={<ApprovedSets />} /> {/* Add the new route here */}
         </Routes>
       </div>
     </Router>

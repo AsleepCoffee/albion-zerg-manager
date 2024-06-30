@@ -7,7 +7,12 @@ const Signup = require('../models/SignUp'); // Ensure this path is correct
 router.get('/', async (req, res) => {
   try {
     const events = await Event.find().populate('partyComps'); // Populate partyComps instead of comps
-    res.json(events);
+    // Ensure the time is returned in UTC
+    const eventsInUTC = events.map(event => {
+      event.time = new Date(event.time).toISOString();
+      return event;
+    });
+    res.json(eventsInUTC);
   } catch (err) {
     console.error('Error fetching events:', err);
     res.status(500).json({ message: err.message });
@@ -34,6 +39,9 @@ router.get('/:id', async (req, res) => {
     }
     event.assignedRoles = transformedAssignedRoles;
 
+    // Ensure the time is returned in UTC
+    event.time = new Date(event.time).toISOString();
+
     res.json(event);
   } catch (err) {
     console.error('Error fetching event by ID:', err);
@@ -44,7 +52,18 @@ router.get('/:id', async (req, res) => {
 // Create a new event
 router.post('/', async (req, res) => {
   const { time, partyComps, caller, hammers, sets, rewards, parties, eventType, compSlots, assignedRoles } = req.body;
-  const event = new Event({ time, partyComps, caller, hammers, sets, rewards, parties, eventType, compSlots, assignedRoles });
+  const event = new Event({ 
+    time: new Date(time).toISOString(), // Ensure time is saved as UTC
+    partyComps, 
+    caller, 
+    hammers, 
+    sets, 
+    rewards, 
+    parties, 
+    eventType, 
+    compSlots, 
+    assignedRoles 
+  });
   try {
     const newEvent = await event.save();
     res.status(201).json(newEvent);
@@ -63,7 +82,13 @@ router.put('/:id', async (req, res) => {
     const event = await Event.findById(eventId);
     if (!event) return res.status(404).json({ message: 'Event not found' });
 
-    Object.assign(event, req.body);
+    // Update fields including time in UTC
+    const updatedEvent = req.body;
+    if (updatedEvent.time) {
+      updatedEvent.time = new Date(updatedEvent.time).toISOString(); // Ensure time is saved as UTC
+    }
+
+    Object.assign(event, updatedEvent);
     await event.save();
     res.json(event);
   } catch (err) {

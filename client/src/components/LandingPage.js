@@ -33,8 +33,8 @@ const LandingPage = () => {
   useEffect(() => {
     if (events.length > 0) {
       const calculateTimeUntilNextEvent = () => {
-        const nextEventTime = moment(events[0].time).utc();
-        const now = moment().utc();
+        const nextEventTime = moment.utc(events[0].time);
+        const now = moment.utc();
         const duration = moment.duration(nextEventTime.diff(now));
         console.log('Next Event Time:', nextEventTime.format('YYYY-MM-DD HH:mm:ss'));
         console.log('Current Time:', now.format('YYYY-MM-DD HH:mm:ss'));
@@ -86,7 +86,7 @@ const LandingPage = () => {
               </div>
               <div className="event-card">
                 <div className="event-details">
-                  <p className="date">{moment(event.time).format('dddd, MMMM D - HH:mm [UTC]')}</p>
+                  <p className="date">{moment.utc(event.time).format('dddd, MMMM D - HH:mm [UTC]')}</p>
                   <p className="title">{event.eventType}</p>
                   {event.partyComps && event.partyComps.length > 0 && (
                     <p className="details">

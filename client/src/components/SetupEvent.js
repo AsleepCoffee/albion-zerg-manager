@@ -99,6 +99,7 @@ const SetupEvent = () => {
             isValidDate={isValidDate}
             dateFormat="YYYY-MM-DD"
             timeFormat="HH:mm"
+            utc={true}
           />
         </div>
         {[...Array(parties)].map((_, index) => (

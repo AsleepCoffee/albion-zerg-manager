@@ -26,7 +26,7 @@ const EditEventInformation = () => {
       try {
         const response = await axios.get(`/api/events/${eventId}`);
         const event = response.data;
-        setTime(moment.utc(event.time).local().format('YYYY-MM-DD HH:mm:ss'));
+        setTime(moment.utc(event.time).format('YYYY-MM-DDTHH:mm:ssZ')); // Parse as UTC and format
         setPartyComps(event.partyComps);
         setCaller(event.caller);
         setHammers(event.hammers);
@@ -60,7 +60,7 @@ const EditEventInformation = () => {
 
   const handleUpdateEvent = async () => {
     const updatedEvent = {
-      time: moment(time).utc().format(),
+      time: moment(time).utc().format(), // Ensure time is saved as UTC
       partyComps,
       caller,
       hammers,
@@ -112,6 +112,7 @@ const EditEventInformation = () => {
             isValidDate={isValidDate}
             dateFormat="YYYY-MM-DD"
             timeFormat="HH:mm"
+            utc={true} // Ensure Datetime component handles UTC
           />
         </div>
         {[...Array(parties)].map((_, index) => (
